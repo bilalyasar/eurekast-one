@@ -1,0 +1,62 @@
+<hazelcast xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.6.xsd"
+           xmlns="http://www.hazelcast.com/schema/config">
+    <properties>
+        <property name="hazelcast.partition.count">271</property>
+        <property name="hazelcast.discovery.enabled">true</property>
+        <property name="hazelcast.discovery.public.ip.enabled">true</property>
+    </properties>
+    <network>
+        <port auto-increment="true" port-count="100">5001</port>
+        <outbound-ports>
+            <!--
+            Allowed port range when connecting to other nodes.
+            0 or * means use system provided port.
+            -->
+            <ports>0</ports>
+        </outbound-ports>
+        <join>
+            <multicast enabled="false"/>
+            <tcp-ip enabled="false">
+                <interface>localhost</interface>
+                <member-list>
+                    <member>localhost</member>
+                </member-list>
+            </tcp-ip>
+            <aws enabled="false"/>
+            <!-- <aws enabled="true">
+                <access-key>YOUR_ACCESS_KEY</access-key>
+                <secret-key>YOUR_SECRET_KEY</secret-key>
+				<tag-key>cluster-group</tag-key>
+				<tag-value>jcpenney</tag-value>
+            </aws> -->
+
+            <discovery-strategies>
+                <discovery-strategy class="com.hazelcast.eurekast.one.EurekastOneDiscoveryStrategy" enabled="true">
+                </discovery-strategy>
+            </discovery-strategies>
+        </join>
+        <interfaces enabled="false">
+            <interface>10.10.1.*</interface>
+        </interfaces>
+        <ssl enabled="false"/>
+        <socket-interceptor enabled="false"/>
+        <symmetric-encryption enabled="false">
+            <!--
+               encryption algorithm such as
+               DES/ECB/PKCS5Padding,
+               PBEWithMD5AndDES,
+               AES/CBC/PKCS5Padding,
+               Blowfish,
+               DESede
+            -->
+            <algorithm>PBEWithMD5AndDES</algorithm>
+            <!-- salt value to use when generating the secret key -->
+            <salt>thesalt</salt>
+            <!-- pass phrase to use when generating the secret key -->
+            <password>thepass</password>
+            <!-- iteration count to use when generating the secret key -->
+            <iteration-count>19</iteration-count>
+        </symmetric-encryption>
+    </network>
+</hazelcast>
