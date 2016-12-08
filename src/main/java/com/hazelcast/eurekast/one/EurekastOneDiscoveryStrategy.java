@@ -106,6 +106,7 @@ class EurekastOneDiscoveryStrategy
                 int port = instance.getPort();
                 Map<String, Object> metadata = (Map) instance.getMetadata();
                 nodes.add(new SimpleDiscoveryNode(new Address(addr, port), metadata));
+                System.out.println("found:" + addr + " port: " + port);
             }
         }
         return nodes;
